@@ -453,6 +453,15 @@ int main() {
                     system("pause");
                     return 0;
                 }
+                else if (volbaPomoci == 3) {
+                    // vražda krále
+                    cout << "\n==================================================================" << endl;
+                    cout << "Vyhra zabil jsi hrale a ostatni strazni se ti poddali. Ted jsi kralem ty a mas vsechno na co si vzpomenes." << endl;
+                    cout << "==================================================================" << endl;
+                    cout << "\nStiskni Enter pro ukonceni..." << endl;
+                    system("pause");
+                    return 0;
+                }
                 else if (volbaPomoci == 1) {
                     // prijeti= hra ukaze ascii art a staty vybrane postavy
                     cout << "\n==================================================================" << endl;
@@ -493,7 +502,7 @@ int main() {
     }
 
     // pokracovani hry po prijeti ukolu od krale
-    cout << "\nOcitl ses v temnem lese a v dalce vidis vesnici..." << endl;
+    cout << "\nOcitl ses na zacatku tve vypravy a pred sebou vydis dve cesty. Kterou si vyberes? 1-stary most ktery vede pres reku   2-cesta do husteho lesa " << endl;
 
     cout << "\nStiskni Enter pro ukonceni..." << endl;
     system("pause");
