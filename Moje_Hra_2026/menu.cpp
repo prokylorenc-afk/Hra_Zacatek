@@ -25,7 +25,7 @@ int main() {
     int drahokamy = 0;
 
     cout << "=== VITEJ VE HRE ===" << endl;
-
+       
     // hlavni menu
     while (true) {
         cout << "\n--- HLAVNI MENU ---" << endl;
