@@ -1,5 +1,4 @@
 
-To je skvělý přístup! Jako umělá inteligence ti s tím moc ráda pomůžu. Dobrá dokumentace dělá z dobrého kódu kód profesionální.
 
 Tady je vylepšená, maximálně detailní verze tvého README, psaná jako přehledný text. Nyní obsahuje přesná vysvětlení jednotlivých knihoven, ukázky přímo z tvého zdrojového kódu a detailní rozebrání mechanik, přesně jak jsi chtěl.
 
