@@ -1,7 +1,4 @@
 
-
-Tady je vylepšená, maximálně detailní verze tvého README, psaná jako přehledný text. Nyní obsahuje přesná vysvětlení jednotlivých knihoven, ukázky přímo z tvého zdrojového kódu a detailní rozebrání mechanik, přesně jak jsi chtěl.
-
 ⚔️ Temný Les: Záchrana Království 🏰
 Vítej u mého textového RPG dobrodružství! Tato hra tě zavede do fantasy světa, kde králův nejlepší oddíl zmizel v Temném lese a je jen na tobě, abys zjistil, co se stalo, a zachránil království před temnou hrozbou. Připrav se na taktické tahové souboje, řešení hádanek, správu surovin a těžká rozhodnutí, která ovlivní osud celého království!
 
