@@ -65,7 +65,9 @@ void PridejXP(int ziskaneXP, int& xp, int& level, int& xpDoDalsihoLevelu, int& m
 }
 **🎮 Detailní rozbor herních mechanik**
 
+
 **🗡️ Jak funguje útočení a damage (poškození)**
+
 Útočný systém kombinuje pevně dané statistiky s prvkem náhody a aktuálním stavem výdrže (staminy).
 
 Volba útoku: Hráč zvolí typ útoku (např. lehký útok stojí 10 staminy, těžký 25).
