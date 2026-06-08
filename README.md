@@ -1,7 +1,7 @@
-🌲 RPG Dobrodružství: Cesta do Temného lesa
+**🌲 RPG Dobrodružství: Cesta do Temného lesa**
 Vítejte u zdrojového kódu textového RPG! Tento projekt je plně interaktivní konzolová hra napsaná v C++, která otestuje vaše strategické myšlení. Hra obsahuje komplexní tahový soubojový systém, správu inventáře, levelování a větvený příběh.
 
-📚 Použité knihovny a jejich význam
+**📚 Použité knihovny a jejich význam**
 Hra využívá několik standardních C++ knihoven pro zajištění plynulého chodu, matematických operací a náhody.
 
 <iostream>
@@ -35,10 +35,10 @@ Příklad v kódu:
 C++
 // Hrac se vyleci o 20, ale nikdy nepresahne svuj maximalni limit
 hp = max(0, min(maxHp, hp + 20)); 
-⚙️ Architektura a Klíčové Funkce
+**⚙️ Architektura a Klíčové Funkce**
 Kód je navržen tak, aby byl modulární. Využívá předávání parametrů odkazem (pomocí operátoru &) a ukazateli (*), což umožňuje funkcím přímo upravovat hlavní proměnné hráče, jako jsou životy nebo výdrž. Rozhodovací logika často využívá switch příkazy a stavové proměnné typu bool (např. maAmulet), které přesně řídí, kam se hráč může vydat a jaké akce má odemčené.
 
-⚔️ Funkce ZvolUtok
+**⚔️ Funkce ZvolUtok**
 Toto je hlavní engine každého souboje.
 
 Jak funguje: Funkce přijímá data hráče (odkazy na staminu, útok) a vrací hodnotu poškození, které hráč způsobil. Zároveň zjišťuje, zda se hráč nerozhodl raději bránit nebo léčit.
@@ -50,7 +50,7 @@ int ZvolUtok(int& stamina, int maxStamina, int utok, int* hp, int maxHp) {
     // Hrac vybira akci (1. Rychly utok, 2. Silny utok...)
     // Funkce snizi staminu a vrati vygenerovane 'dmg'
 }
-🌟 Funkce PridejXP
+**🌟 Funkce PridejXP**
 Stará se o levelování hrdiny na konci každého vítězného boje.
 
 Jak funguje: Přičte získané zkušenosti. Pokud přetečou hranici pro další úroveň, funkce automaticky zvýší level, upraví maximální HP a zvedne základní útok.
@@ -63,8 +63,9 @@ void PridejXP(int ziskaneXP, int& xp, int& level, int& xpDoDalsihoLevelu, int& m
         // Uprava statu pro novy level...
     }
 }
-🎮 Detailní rozbor herních mechanik
-🗡️ Jak funguje útočení a damage (poškození)
+**🎮 Detailní rozbor herních mechanik**
+
+**🗡️ Jak funguje útočení a damage (poškození)**
 Útočný systém kombinuje pevně dané statistiky s prvkem náhody a aktuálním stavem výdrže (staminy).
 
 Volba útoku: Hráč zvolí typ útoku (např. lehký útok stojí 10 staminy, těžký 25).
@@ -73,14 +74,14 @@ Výpočet: Základní utok hráče se sečte s náhodným modifikátorem rand().
 
 Penetrace obrany: Z výsledného poškození se odečte obrana nepřítele. Výsledek se následně odečte z hp (životů) nepřítele.
 
-🛡️ Jak fungují HP a Obrana
+**🛡️ Jak fungují HP a Obrana**
 HP (Health Points): Reprezentují životní sílu. Pokud klesnou na 0, hra končí. Program neustále hlídá cyklus while (hp > 0), který udržuje hráče ve hře.
 
 Obrana: Funguje jako štít. Snižuje každé příchozí poškození o fixní částku. Pokud má nepřítel útok 15 a hráč obranu 5, hráč ztratí pouze 10 HP.
 
 Léčení: Pomocí lektvarů nebo amuletů lze HP doplňovat, ale díky funkci std::min nikdy nepřesáhnou hodnotu maxHp.
 
-📈 Jak fungují XP (Zkušenosti)
+**📈 Jak fungují XP (Zkušenosti)**
 Zkušenostní systém odměňuje hráče za riskování.
 
 Za každého poraženého nepřítele hráč obdrží specifický počet XP.
@@ -89,7 +90,7 @@ Hra si drží proměnnou xpDoDalsihoLevelu. Ta se s každým levelem zvyšuje (n
 
 Levelování je klíčové pro finální fáze hry, protože trvale zvyšuje maxHp a základní poškození, bez kterého nelze porazit Bosse.
 
-🗺️ Game Flow (Průběh hry)
+**🗺️ Game Flow (Průběh hry)**
 Hra běží v hlavní smyčce main(), která drží hráče v neustálé interakci.
 
 Průzkumná fáze: Hráč si vybírá cesty (Lokace A, Lokace B, Obchod). Každá volba je řízena vstupy přes cin.
@@ -98,6 +99,8 @@ Soubojová fáze: Jakmile dojde ke střetu, spustí se vnořený cyklus while(hp
 
 Ekonomika: Obchodní systém porovnává nasbírané suroviny (drahokamy) s cenami předmětů a pomocí bool proměnných zamyká položky, které si hráč už jednou koupil.
 
-Hlavní vývojář a architekt: Prokop Lorenc
-AI spolupracovník a technický mentor: Gemini (Google)
-Verze: 1.0 (Konečná verze)
+**Hlavní vývojář a architekt: Prokop Lorenc**
+
+**AI spolupracovník a technický mentor: Gemini (Google)**
+
+**Verze: 1.0 (Konečná verze)**
