@@ -1,78 +1,103 @@
+🌲 RPG Dobrodružství: Cesta do Temného lesa
+Vítejte u zdrojového kódu textového RPG! Tento projekt je plně interaktivní konzolová hra napsaná v C++, která otestuje vaše strategické myšlení. Hra obsahuje komplexní tahový soubojový systém, správu inventáře, levelování a větvený příběh.
 
-⚔️ Temný Les: Záchrana Království 🏰
-Vítej u mého textového RPG dobrodružství! Tato hra tě zavede do fantasy světa, kde králův nejlepší oddíl zmizel v Temném lese a je jen na tobě, abys zjistil, co se stalo, a zachránil království před temnou hrozbou. Připrav se na taktické tahové souboje, řešení hádanek, správu surovin a těžká rozhodnutí, která ovlivní osud celého království!
+📚 Použité knihovny a jejich význam
+Hra využívá několik standardních C++ knihoven pro zajištění plynulého chodu, matematických operací a náhody.
 
-🛠️ Použité knihovny a technologie
-Hra je naprogramována v čistém jazyce C++. Aby celý svět fungoval – od soubojů až po náhodná zranění jedem – využívá hra několik standardních knihoven. Zde je jejich podrobný rozbor s ukázkami přímo ze hry:
+<iostream>
+Základní stavební kámen pro komunikaci s hráčem. Stará se o vstup a výstup textu do konzole.
 
-🖥️ 1. Knihovna 
-Toto je absolutní základ každé konzolové aplikace v C++. Zkratka znamená "Input/Output Stream". Stará se o to, aby hra mohla s hráčem komunikovat: vypisovat mu příběh, ukazovat stav životů (pomocí cout) a naopak číst to, co hráč zadá na klávesnici (pomocí cin).
+Příklad v kódu:
 
-Jak to funguje v mém kódu:
-Kdykoliv potřebuji vypsat menu nebo přijmout volbu hráče v souboji, používám tuto knihovnu.
+C++
+cout << "Vitej v Temnem lese, hrdino!" << endl;
+cin >> volba;
+<cstdlib>
+Tato knihovna nám dává přístup k funkcím pro generování pseudonáhodných čísel (rand()). Je to mozek veškeré nevyzpytatelnosti ve hře (např. šance na kritický zásah nebo síla nepřátelského útoku).
 
-cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << endl;
-cout << "Kdo bude tvuj cil? (1, 2 nebo 3): ";
-cin >> cil;
+Příklad v kódu (Výpočet poškození):
 
-📜 2. Knihovna 
-V základním C/C++ se texty dají ukládat jako složitá pole znaků, což je velmi nepraktické. Knihovna <string> přidává datový typ pro snadnou práci s textovými řetězci. V mé hře ji používám pro dynamické pojmenovávání nepřátel, útoků nebo pro čtení odpovědí na hádanky.
+C++
+// Vygeneruje nahodne poskozeni mezi 5 a 10
+int dmg = (rand() % 6) + 5; 
+<ctime>
+Slouží k získání aktuálního systémového času. Používáme ji ve spojení s <cstdlib>, aby hra při každém spuštění generovala jiná náhodná čísla (tzv. "seedování").
 
-Jak to funguje v mém kódu:
-Ukládám do něj jména monster, aby se výpisy v konzoli hezky formátovaly, nebo kontroluji textovou odpověď hráče.
+Příklad v kódu:
 
-string jmStredni = "[STREDNI] Obri pavouci matka";
-string odpovedHrace;
-cin >> odpovedHrace;
-if (odpovedHrace == "kniha") { pocetUhodnutych++; }
+C++
+srand(time(0)); // Inicializace generatoru nahody hned na zacatku main()
+<algorithm>
+Obsahuje pokročilé matematické funkce. V našem RPG se stará o to, aby statistiky hráče nepřekročily stanovené limity (např. aby se hráč neuzdravil na 120 HP, když je jeho maximum 100).
 
-🎲 3. Knihovny  a 
-Hra na hrdiny by nebyla zábavná bez prvku náhody. <cstdlib> poskytuje funkci rand(), která generuje náhodná čísla. Kdybychom ale použili jen tu, hra by pokaždé házela stejná čísla ve stejném pořadí. Proto se s ní páruje <ctime>, která umí přečíst aktuální čas počítače. Pomocí příkazu srand(time(0)) na začátku hry se generátor "nastartuje" aktuálním časem, takže je každá hra stoprocentně unikátní.
+Příklad v kódu:
 
-Jak to funguje v mém kódu:
-Používám náhodu pro útoky jedem, kde nepřítel uštědří náhodné poškození od 1 do 3, nebo pro různé chování finálního bosse.
+C++
+// Hrac se vyleci o 20, ale nikdy nepresahne svuj maximalni limit
+hp = max(0, min(maxHp, hp + 20)); 
+⚙️ Architektura a Klíčové Funkce
+Kód je navržen tak, aby byl modulární. Využívá předávání parametrů odkazem (pomocí operátoru &) a ukazateli (*), což umožňuje funkcím přímo upravovat hlavní proměnné hráče, jako jsou životy nebo výdrž. Rozhodovací logika často využívá switch příkazy a stavové proměnné typu bool (např. maAmulet), které přesně řídí, kam se hráč může vydat a jaké akce má odemčené.
 
-int jed = rand() % 3 + 1;
-hp -= jed;
-cout << "Vysvetlivka: Jsi otraveny! Jed ubral dalsich " << jed << " HP." << endl;
+⚔️ Funkce ZvolUtok
+Toto je hlavní engine každého souboje.
 
-🧮 4. Knihovna 
-Tato knihovna obsahuje spoustu matematických a řadících funkcí. Já z ní využívám extrémně užitečnou funkci min(). Ta porovná dvě čísla a vybere to menší. Je to dokonalá pojistka ("guardrail"), která brání tomu, aby si hráč obnovil více staminy nebo životů, než je jeho povolené maximum.
+Jak funguje: Funkce přijímá data hráče (odkazy na staminu, útok) a vrací hodnotu poškození, které hráč způsobil. Zároveň zjišťuje, zda se hráč nerozhodl raději bránit nebo léčit.
 
-Jak to funguje v mém kódu:
-Když hráč zabije monstrum nebo odpočívá po boji, obnoví se mu stamina/HP, ale nikdy nepřesáhne svůj limit (např. maxStamina).
+Ukázka logiky:
 
-stamina = min(maxStamina, stamina + 5);
-hp = min(maxHp, hp + 10);
+C++
+int ZvolUtok(int& stamina, int maxStamina, int utok, int* hp, int maxHp) {
+    // Hrac vybira akci (1. Rychly utok, 2. Silny utok...)
+    // Funkce snizi staminu a vrati vygenerovane 'dmg'
+}
+🌟 Funkce PridejXP
+Stará se o levelování hrdiny na konci každého vítězného boje.
 
-⚙️ Detailní rozbor logiky a architektury kódu
-Aby byl kód čistý a funkční, je postaven na několika provázaných systémech.
+Jak funguje: Přičte získané zkušenosti. Pokud přetečou hranici pro další úroveň, funkce automaticky zvýší level, upraví maximální HP a zvedne základní útok.
 
-⚔️ Dynamický soubojový systém (while cykly)
-Boje nejsou jen jeden statický útok. Jsou tvořeny pomocí cyklů while. Cyklus běží tak dlouho, dokud je hráč naživu (hp > 0) a zároveň žije alespoň jedno monstrum ze skupiny (např. hpLehke > 0 || hpBoss > 0).
+C++
+void PridejXP(int ziskaneXP, int& xp, int& level, int& xpDoDalsihoLevelu, int& maxHp, int& utok) {
+    xp += ziskaneXP;
+    if (xp >= xpDoDalsihoLevelu) {
+        level++;
+        // Uprava statu pro novy level...
+    }
+}
+🎮 Detailní rozbor herních mechanik
+🗡️ Jak funguje útočení a damage (poškození)
+Útočný systém kombinuje pevně dané statistiky s prvkem náhody a aktuálním stavem výdrže (staminy).
 
-Tento systém umožňuje taktické boje proti skupinám nepřátel. Hráč si pomocí čísel vybírá, na koho zaútočí, a funkce ZvolUtok() následně propočítá výdej staminy a poškození. Pokud hráč nemá dostatek staminy, neudělí poškození a musí jedno kolo odpočívat, přičemž do něj nepřátelé stále buší.
+Volba útoku: Hráč zvolí typ útoku (např. lehký útok stojí 10 staminy, těžký 25).
 
-👹 Modifikátory nepřátel
-Při návrhu nepřátel jsem nechtěl, aby to byly jen "boxovací pytle". Přidal jsem jim specifické vlastnosti ovlivňující boj:
+Výpočet: Základní utok hráče se sečte s náhodným modifikátorem rand().
 
-[RYCHLÝ] Vodní had: Hráči je ubráno HP ještě před prvním tahem, simulující překvapivý útok.
+Penetrace obrany: Z výsledného poškození se odečte obrana nepřítele. Výsledek se následně odečte z hp (životů) nepřítele.
 
-[BRNĚNÍ] Kamenný golem: Samostatná podmínka při útoku snižuje hráčovo poškození. Kód doslova říká: dmg -= 1; if (dmg < 0) dmg = 0; (aby hráč monstrum nezačal omylem léčit záporným útokem).
+🛡️ Jak fungují HP a Obrana
+HP (Health Points): Reprezentují životní sílu. Pokud klesnou na 0, hra končí. Program neustále hlídá cyklus while (hp > 0), který udržuje hráče ve hře.
 
-[DÁLKA] Temný dryád: Do funkce útoku se odesílá speciální proměnná extraStam = 1, která hráče nutí zaplatit více staminy za to, že musí k nepříteli doběhnout.
+Obrana: Funguje jako štít. Snižuje každé příchozí poškození o fixní částku. Pokud má nepřítel útok 15 a hráč obranu 5, hráč ztratí pouze 10 HP.
 
-🛍️ Obchodní systém a ochrana před chybami
-Ve vesnicích má hráč možnost nakupovat upgrady. Kód je zde chráněn pomocí podmínek if a else if, aby hráč nemohl podvádět.
+Léčení: Pomocí lektvarů nebo amuletů lze HP doplňovat, ale díky funkci std::min nikdy nepřesáhnou hodnotu maxHp.
 
-Kód nejdříve zkontroluje, zda má hráč dostatek drahokamů: if (drahokamy < 5).
+📈 Jak fungují XP (Zkušenosti)
+Zkušenostní systém odměňuje hráče za riskování.
 
-Dále kontroluje, zda má nákup vůbec smysl: else if (hp == maxHp && stamina == maxStamina) zabraňuje tomu, aby hráč zbytečně utratil peníze za léčení, když je plně zdravý.
+Za každého poraženého nepřítele hráč obdrží specifický počet XP.
 
-Aby se hráč nemohl ve druhé vesnici "naboostovat" do nekonečna, je zde implementováno počítadlo int nakupy = 0; while (nakupy < 2), které obchod automaticky uzavře po dvou transakcích.
+Hra si drží proměnnou xpDoDalsihoLevelu. Ta se s každým levelem zvyšuje (např. na level 2 je potřeba 100 XP, na level 3 už 250 XP).
 
-🛡️ Finální Boss a "Geomancerova magie"
-Závěrečný souboj s Temným králem Ramusem obsahuje unikátní mechaniku. Hráč vybírá geometrické tvary (Čtverec, Obdélník, Kruh) pro magický štít. Kód následně provádí výpočty zranění na základě hráčovy volby. U obdélníku se dokonce dynamicky počítá poškození na základě hráčova aktuálního levelu: bossDmg = baseBossDmg * (2 + (level * 2));. To zajišťuje, že boss zůstává hrozbou i pro velmi "nakažené" (vyexpované) postavy.
+Levelování je klíčové pro finální fáze hry, protože trvale zvyšuje maxHp a základní poškození, bez kterého nelze porazit Bosse.
 
-🏆 Konec hry a Morální Volba
-Na samotném konci hry, pokud hráč disponuje Amuletem čistoty, může z krále Ramuse vyhnat temnotu a vyslechnout si jeho příběh (Lore). Hra nabízí dvě různé příběhové cesty – popravu, nebo uvěznění – čímž přidává na znovuhratelnosti.
+🗺️ Game Flow (Průběh hry)
+Hra běží v hlavní smyčce main(), která drží hráče v neustálé interakci.
+
+Průzkumná fáze: Hráč si vybírá cesty (Lokace A, Lokace B, Obchod). Každá volba je řízena vstupy přes cin.
+
+Soubojová fáze: Jakmile dojde ke střetu, spustí se vnořený cyklus while(hp > 0 && nepritelHp > 0). Tento cyklus se opakuje tak dlouho, dokud jedna strana nezemře.
+
+Ekonomika: Obchodní systém porovnává nasbírané suroviny (drahokamy) s cenami předmětů a pomocí bool proměnných zamyká položky, které si hráč už jednou koupil.
+
+Hlavní vývojář a architekt: Prokop Lorenc
+AI spolupracovník a technický mentor: Gemini (Google)
+Verze: 1.0 (Konečná verze)
