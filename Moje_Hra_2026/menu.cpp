@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-
 int ZvolUtok(int& stamina, int maxStamina, int utok, string specialita, string jmeno, bool mensiStamina = false, int extraStamina = 0, bool maAmulet = false, int* hp = nullptr, int maxHp = 0) {
     string nazev1 = (jmeno == "Prokop") ? "Bodnuti propiskou" : "Rychly utok";
     string nazev2 = (jmeno == "Prokop") ? "Rana tezkym sesitem" : "Silny utok";
@@ -94,7 +92,6 @@ int main() {
     string specialita = "Zadna";
     int drahokamy = 0, xp = 0, level = 1, xpDoDalsihoLevelu = 20;
 
-
     bool maAmuletZivota = false;
     bool maAmuletCistoty = false;
 
@@ -111,12 +108,13 @@ int main() {
             int volbaPostavy;
             cin >> volbaPostavy;
 
-            if (volbaPostavy == 1) { jmeno = "Rytir"; hp = 25; utok = 10; obrana = 15; stamina = 15; specialita = "Mec a stit"; }
-            else if (volbaPostavy == 16) { jmeno = "Prokop"; hp = 50; utok = 50; obrana = 50; stamina = 50; specialita = "Jednicka z programovani"; }
-            else if (volbaPostavy == 2) { jmeno = "Carodej"; hp = 20; utok = 10; obrana = 10; stamina = 15; specialita = "Magicka hul"; }
-            else if (volbaPostavy == 3) { jmeno = "Lucistnik"; hp = 15; utok = 10; obrana = 10; stamina = 20; specialita = "Luk a sipy"; }
-            else if (volbaPostavy == 4) { jmeno = "Assassin"; hp = 20; utok = 15; obrana = 10; stamina = 15; specialita = "Dvojita dyka"; }
-            else { cout << "Spatna volba, davam ti Rytire." << endl; jmeno = "Rytir"; hp = 25; utok = 10; obrana = 12; stamina = 12; specialita = "Mec a stit"; }
+
+            if (volbaPostavy == 1) { jmeno = "Rytir"; hp = 30; utok = 12; obrana = 11; stamina = 15; specialita = "Mec a stit"; }
+            else if (volbaPostavy == 16) { jmeno = "Prokop"; hp = 100; utok = 100; obrana = 100; stamina = 100; specialita = "Jednicka z programovani"; }
+            else if (volbaPostavy == 2) { jmeno = "Carodej"; hp = 20; utok = 10; obrana = 5; stamina = 10; specialita = "Magicka hul"; }
+            else if (volbaPostavy == 3) { jmeno = "Lucistnik"; hp = 15; utok = 13; obrana = 5; stamina = 13; specialita = "Luk a sipy"; }
+            else if (volbaPostavy == 4) { jmeno = "Assassin"; hp = 25; utok = 15; obrana = 5; stamina = 7; specialita = "Dvojita dyka"; }
+            else { cout << "Spatna volba, davam ti Rytire." << endl; jmeno = "Rytir"; hp = 30; utok = 12; obrana = 11; stamina = 15; specialita = "Mec a stit"; }
 
             maxStamina = stamina; maxHp = hp;
             hraceVybral = true;
@@ -129,7 +127,7 @@ int main() {
             else {
                 cout << "\n==================================================================" << endl;
                 cout << "Kral si te nechal urgentne povolat!\nZada te o pomoc. Jeho nejlepsi vojsko slo na lov mysi do Temneho lesa...\n...jenze se NEOZVALI a NEVRATILI. Nezbyly po nich ZADNE stopy." << endl;
-                cout << "\nKral si zada prave tebe kvuli tvym zkusenostem a hrdinske povesti!\nKdyz najdes jeho druzinu, da ti pokladnici PLNOU ZLATA\na tvoje slava bude tak uchvatna, ze te budou znat VSOUDE!" << endl;
+                cout << "\nKral si zada prave tebe kvuli tvym zkusenostem a hrdinske povesti!\nKdyz najdes his druzinu, da ti pokladnici PLNOU ZLATA\na tvoje slava bude tak uchvatna, ze te budou znat VSOUDE!" << endl;
                 cout << "==================================================================" << endl;
                 cout << "\nPomozes krali v teto tezke chvili?\n1. Ano, prijmam tvuj ukol, krali!\n2. Ne, tohle me nezajima. Odchazim.\nTvoje volba: ";
                 int volbaPomoci;
@@ -174,7 +172,12 @@ int main() {
                 cout << "Zabil jsi Lesni sliz! Ziskavas 5 staminy a 2 drahokamy." << endl;
             }
         }
-        if (hpPrisery > 0) { hp -= 2; cout << "[LEHKE] Lesni sliz po tobe plivnul kyselinu a ubral ti 2 HP!" << endl; }
+        if (hpPrisery > 0) {
+            int utrpeno = 2 - (obrana / 12);
+            if (utrpeno < 0) utrpeno = 0;
+            hp -= utrpeno;
+            cout << "[LEHKE] Lesni sliz po tobe plivnul kyselinu a ubral ti " << utrpeno << " HP!" << endl;
+        }
     }
     if (hp <= 0) { cout << "\nZemrel jsi! Rozleptal te Lesni sliz. Hra konci." << endl; system("pause"); return 0; }
 
@@ -193,10 +196,9 @@ int main() {
     cout << "Tezsi monstra maji specialni vlastnosti (RYCHLY, BRNENI, DALKA, JED)." << endl;
     cout << "==================================================================" << endl;
 
-
     cout << "\nPokracujes po ceste a narazis na vesnici." << endl;
     cout << "--- VESNICE 1 ---" << endl;
-    cout << "Mas " << drahokamy << " drahokamu.\nMuzes si vybrat pouze JEDNU z techto sluzeb, pak te mistni z obchodu vyzenou:\n1. Vylecit se (Plne obnovi HP a Staminu) - Cena: 2 drahokamy\n2. Vylepsit utok (+2 k utoku) - Cena: 3 drahokamy\n3. Vylepsit ochranu (+2 k defense/obrane) - Cena: 3 drahokamy\n4. Odejit (Nic nepotrebujes)\nTvoje volba akce: ";
+    cout << "Mas " << drahokamy << " drahokamu.\nMuzes si vybrat pouze JEDNU z techto sluzeb, pak te mistni z obchodu vyzenou:\n1. Vylecit se (Plne obnovi HP a Staminu) - Cena: 2 drahokamy\n2. Vylepsit utok (+2 k utoku) - Cena: 3 drahokamy\n3. Vylepsit ochranu (+5 k defense/obrane) - Cena: 3 drahokamy\n4. Odejit (Nic nepotrebujes)\nTvoje volba akce: ";
     int volbaObchod; cin >> volbaObchod;
     if (volbaObchod == 1) {
         if (drahokamy < 2) cout << "\n[!] Nemas dostatek drahokamu." << endl;
@@ -209,7 +211,7 @@ int main() {
     }
     else if (volbaObchod == 3) {
         if (drahokamy < 3) cout << "\n[!] Nemas dostatek drahokamu." << endl;
-        else { obrana += 2; drahokamy -= 3; cout << "\n-> Tvoje obrana byla zvysena na: " << obrana << endl; }
+        else { obrana += 5; drahokamy -= 3; cout << "\n-> Tvoje obrana byla zvysena na: " << obrana << endl; }
     }
 
     bool vespolekKecani = true;
@@ -222,7 +224,6 @@ int main() {
         else if (volbaPokec == 4) break;
         else cout << "Takovy clovek tu neni." << endl;
     }
-
 
     cout << "\nVyrazils dal na cestu. Pred sebou mas rozcesti. Kudy pujdes?" << endl;
     cout << "1 - Pres listnaty les\n2 - Pres otevrenou louku (pole)\n3 - Do tajemneho lesa s fialovymi stromy\nTvoje volba: ";
@@ -254,8 +255,14 @@ int main() {
                     if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtev!" << endl; }
                 }
             }
-            if (hpLehke > 0) { hp -= 2; cout << jmLehke << " te kousla za 2 HP!" << endl; }
-            if (hpStredni > 0) { hp -= 4; cout << jmStredni << " te majznul za 4 HP!" << endl; }
+            if (hpLehke > 0) {
+                int utrpeno = 2 - (obrana / 12); if (utrpeno < 0) utrpeno = 0; hp -= utrpeno;
+                cout << jmLehke << " te kousla za " << utrpeno << " HP!" << endl;
+            }
+            if (hpStredni > 0) {
+                int utrpeno = 4 - (obrana / 12); if (utrpeno < 0) utrpeno = 0; hp -= utrpeno;
+                cout << jmStredni << " te majznul za " << utrpeno << " HP!" << endl;
+            }
         }
     }
     else if (finalniCesta == 2) {
@@ -264,7 +271,8 @@ int main() {
         int hpStredni = 15; string jmStredni = "[STREDNI] Skreti pruzkumnik";
 
         cout << "Vysvetlivka: " << jmStredni << " je extremne rychly, utoci jako prvni nez vubec zacne tah!" << endl;
-        hp -= 3; cout << jmStredni << " te bodl a ubral 3 HP!" << endl;
+        int utrpenoPreb = 3 - (obrana / 12); if (utrpenoPreb < 0) utrpenoPreb = 0; hp -= utrpenoPreb;
+        cout << jmStredni << " te bodl a ubral " << utrpenoPreb << " HP!" << endl;
 
         while (hp > 0 && (hpLehke > 0 || hpStredni > 0)) {
             cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << endl;
@@ -285,8 +293,14 @@ int main() {
                     if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtev!" << endl; }
                 }
             }
-            if (hpLehke > 0) { hp -= 2; cout << jmLehke << " te kouslo za 2 HP!" << endl; }
-            if (hpStredni > 0) { hp -= 3; cout << jmStredni << " te sekl za 3 HP!" << endl; }
+            if (hpLehke > 0) {
+                int utrpeno = 2 - (obrana / 12); if (utrpeno < 0) utrpeno = 0; hp -= utrpeno;
+                cout << jmLehke << " te kouslo za " << utrpeno << " HP!" << endl;
+            }
+            if (hpStredni > 0) {
+                int utrpeno = 3 - (obrana / 12); if (utrpeno < 0) utrpeno = 0; hp -= utrpeno;
+                cout << jmStredni << " te sekl za " << utrpeno << " HP!" << endl;
+            }
         }
     }
     else {
@@ -294,8 +308,8 @@ int main() {
         int hpBoss = 35; string jmBoss = "[MINI-BOSS] Stin lesu";
 
         cout << "Vysvetlivka: " << jmBoss << " je extremne rychly, utoci jako prvni!" << endl;
-        hp -= 5;
-        cout << "Stin ubral 5 HP jeste nez jsi stihl zareagovat!" << endl;
+        int utrpenoPreb = 5 - (obrana / 12); if (utrpenoPreb < 0) utrpenoPreb = 0; hp -= utrpenoPreb;
+        cout << "Stin ubral " << utrpenoPreb << " HP jeste nez jsi stihl zareagovat!" << endl;
 
         while (hp > 0 && hpBoss > 0) {
             cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << "\nHP " << jmBoss << ": " << hpBoss << " (RYCHLY, JED)" << endl;
@@ -305,7 +319,8 @@ int main() {
                 if (hpBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << jmBoss << " mrtev!" << endl; }
             }
             if (hpBoss > 0) {
-                hp -= 4; cout << jmBoss << " te zasahl za 4 HP!" << endl;
+                int utrpeno = 4 - (obrana / 12); if (utrpeno < 0) utrpeno = 0; hp -= utrpeno;
+                cout << jmBoss << " te zasahl za " << utrpeno << " HP!" << endl;
                 int jed = rand() % 3 + 1;
                 hp -= jed;
                 cout << "Vysvetlivka: Dokud bojujes s timto monstrem, jsi otraveny! Jed ti ubral dalsich nahodnych " << jed << " HP." << endl;
@@ -318,8 +333,7 @@ int main() {
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi rozcesti! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-
-    cout << "\nJdes dal po ceste a uvidis zvlastni kamen." << endl;
+    cout << "\nJdes dal a uvidis zvlastni kamen." << endl;
     cout << "Hrac: Achh, jsem unaveny. Sednu si a odpocinu." << endl;
     cout << "???: Au au au! Slez ze me ty grazle, pripadam ti jako lavicka? Vis ty vubec, kdo ja jsem?" << endl;
     cout << "Hrac: Co... co to bylo? Kdo mluvi?" << endl;
@@ -347,9 +361,8 @@ int main() {
 
     if (pocetUhodnutych == 0) cout << "Kamen: Tak to je dost bidna zachrana..." << endl;
     else if (pocetUhodnutych == 1) { cout << "Kamen: No nic moc.\n[Trvale snizeni potrebne staminy na utoky!]" << endl; mensiStaminaCena = true; }
-    else if (pocetUhodnutych == 2) { cout << "Kamen: Ty mas potencial.\n[Snizeni staminy a +20 drahokamu!]" << endl; mensiStaminaCena = true; drahokamy += 20; }
+    else if (pocetUhodnutych == 2) { cout << "Kamen: Ty mas potencial.\n[Snizeni staminy and +20 drahokamu!]" << endl; mensiStaminaCena = true; drahokamy += 20; }
     else if (pocetUhodnutych == 3) { cout << "Kamen: Ty jsi vyvoleny! V opustene vesnici najdes zbroj.\n[Snizeni staminy, +20 drahokamu a tajna rada!]" << endl; mensiStaminaCena = true; drahokamy += 20; radaDoVesnice = true; }
-
 
     cout << "\nPo rozhovoru jdes dal a stojis pred rozcestim:" << endl;
     cout << "1 - Pres Obycejny les\n2 - Pres Opustenou vesnici\n3 - Po Zapomenute stezce\nTvoje volba: ";
@@ -376,9 +389,9 @@ int main() {
                 else if (cil == 2 && hpLehke2 > 0) { hpLehke2 -= dmg; if (hpLehke2 <= 0) { stamina = min(maxStamina, stamina + 5); drahokamy += 2; cout << jmLehke2 << " mrtev!" << endl; } }
                 else if (cil == 3 && hpStredni > 0) { hpStredni -= dmg; if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtev!" << endl; } }
             }
-            if (hpLehke1 > 0) hp -= dmgLehke1;
-            if (hpLehke2 > 0) hp -= dmgLehke2;
-            if (hpStredni > 0) hp -= dmgStredni;
+            if (hpLehke1 > 0) { int u = dmgLehke1 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke2 > 0) { int u = dmgLehke2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpStredni > 0) { int u = dmgStredni - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     else if (volbaDalsi == 2) {
@@ -404,9 +417,9 @@ int main() {
                     if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtev!" << endl; }
                 }
             }
-            if (hpLehke1 > 0) hp -= dmgLehke1;
-            if (hpLehke2 > 0) hp -= dmgLehke2;
-            if (hpStredni > 0) hp -= dmgStredni;
+            if (hpLehke1 > 0) { int u = dmgLehke1 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke2 > 0) { int u = dmgLehke2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpStredni > 0) { int u = dmgStredni - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     else {
@@ -427,10 +440,10 @@ int main() {
                 else if (cil == 2 && hpLehke2 > 0) { hpLehke2 -= dmg; if (hpLehke2 <= 0) { stamina = min(maxStamina, stamina + 5); drahokamy += 2; cout << jmLehke2 << " mrtev!" << endl; } }
                 else if (cil == 3 && hpStredni > 0) { hpStredni -= dmg; if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtva!" << endl; } }
             }
-            if (hpLehke1 > 0) hp -= dmgLehke1;
-            if (hpLehke2 > 0) hp -= dmgLehke2;
+            if (hpLehke1 > 0) { int u = dmgLehke1 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke2 > 0) { int u = dmgLehke2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
             if (hpStredni > 0) {
-                hp -= dmgStredni;
+                int u = dmgStredni - (obrana / 12); if (u < 0) u = 0; hp -= u;
                 int jed = rand() % 3 + 1; hp -= jed;
                 cout << "Vysvetlivka: Jsi otraveny! Jed ubral dalsich " << jed << " HP." << endl;
             }
@@ -442,7 +455,6 @@ int main() {
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi rozcesti! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-
     cout << "\nJdes dal a pred tebou je dalsi rozcesti:" << endl;
     cout << "1 - Preplavat reku na lodicce uvazane u brehu\n2 - Jit pres jeskyni\nTvoje volba: ";
     int volbaReka; cin >> volbaReka;
@@ -452,7 +464,8 @@ int main() {
         int hpStredni = 25, dmgStredni = 4; string jmStredni = "[STREDNI] Vodni had";
 
         cout << "Vysvetlivka: " << jmStredni << " je extremne rychly a utoci jako prvni!" << endl;
-        hp -= 3; cout << "Vodni had te stahl pod vodu a ubral 3 HP!" << endl;
+        int utrpenoPreb = 3 - (obrana / 12); if (utrpenoPreb < 0) utrpenoPreb = 0; hp -= utrpenoPreb;
+        cout << "Vodni had te stahl pod vodu a ubral " << utrpenoPreb << " HP!" << endl;
 
         while (hp > 0 && (hpLehke > 0 || hpStredni > 0)) {
             cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << endl;
@@ -468,8 +481,8 @@ int main() {
                 if (cil == 1 && hpLehke > 0) { hpLehke -= dmg; if (hpLehke <= 0) { stamina = min(maxStamina, stamina + 5); drahokamy += 2; cout << jmLehke << " mrtev!" << endl; } }
                 else if (cil == 2 && hpStredni > 0) { hpStredni -= dmg; if (hpStredni <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << jmStredni << " mrtev!" << endl; } }
             }
-            if (hpLehke > 0) hp -= dmgLehke;
-            if (hpStredni > 0) hp -= dmgStredni;
+            if (hpLehke > 0) { int u = dmgLehke - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpStredni > 0) { int u = dmgStredni - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     else {
@@ -495,8 +508,8 @@ int main() {
                     if (hpBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << jmBoss << " mrtev!" << endl; }
                 }
             }
-            if (hpLehke > 0) hp -= dmgLehke;
-            if (hpBoss > 0) hp -= dmgBoss;
+            if (hpLehke > 0) { int u = dmgLehke - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpBoss > 0) { int u = dmgBoss - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
 
@@ -512,7 +525,7 @@ int main() {
     int nakupy = 0;
     while (nakupy < 2) {
         cout << "\nMas " << drahokamy << " drahokamu. (Vyuzite nakupy: " << nakupy << " ze 2)" << endl;
-        cout << "1. Vylecit se (Plne obnovi HP a Staminu) - Cena: 5 drahokamu\n2. Vylepsit utok (+2 k utoku) - Cena: 7 drahokamu\n3. Vylepsit ochranu (+2 k defense/obrane) - Cena: 7 drahokamu\n4. Odejit z obchodu\nTvoje volba: ";
+        cout << "1. Vylecit se (Plne obnovi HP a Staminu) - Cena: 5 drahokamu\n2. Vylepsit utok (+2 k utoku) - Cena: 7 drahokamu\n3. Vylepsit ochranu (+5 k defense/obrane) - Cena: 7 drahokamu\n4. Odejit z obchodu\nTvoje volba: ";
         int volbaObchod2; cin >> volbaObchod2;
 
         if (volbaObchod2 == 1) {
@@ -526,7 +539,7 @@ int main() {
         }
         else if (volbaObchod2 == 3) {
             if (drahokamy < 7) cout << "\n[!] Nemas dostatek drahokamu." << endl;
-            else { obrana += 2; drahokamy -= 7; cout << "\n-> Tvoje obrana byla zvysena na: " << obrana << endl; nakupy++; }
+            else { obrana += 5; drahokamy -= 7; cout << "\n-> Tvoje obrana byla zvysena na: " << obrana << endl; nakupy++; }
         }
         else if (volbaObchod2 == 4) break;
         else cout << "Neznama volba." << endl;
@@ -543,7 +556,7 @@ int main() {
         else cout << "Takovy clovek tu neni." << endl;
     }
 
-    cout << "\nOdesel jsi z vesnice a blizis se k dalsimu rozcesti - Hrbitov a Bazina kud..." << endl;
+    cout << "\nOdesel jsi z vesnice and blizis se k dalsimu rozcesti - Hrbitov and Bazina kud..." << endl;
     cout << "???: Kra kra, celou tvou cestu te sleduju a necekala jsem ze se dostanes tak daleko mladiku." << endl;
     cout << "Hrac: Halo halo, kdo to byl? Odkud?" << endl;
     cout << "???: Kra kra tady nahore." << endl;
@@ -551,11 +564,10 @@ int main() {
     cout << "Stara vrana: Kra, mladiku uz od te doby co jsi odesel od krale te sleduju a cekala jsem, ze se nedostanes ani do prvni vesnice. Ale ty jsi az tady, dobra prace. A ne, nejsem pokusem alchymika, jsem jedno z monster Temneho krale... tak nejak mu rika ta starena... no to je jedno. Vymanila jsem se z jeho nadvlady a stala se ze me mluvici vrana." << endl;
     cout << "Stara vrana: A proc jsem se ti ted ozvala? Chci ti pomoct. Toto kralovstvi byvalo mirumilovne a hezke, ted potrebujeme hrdinu, a kdyz do tebe vlozil nadeje nas kral a moudry kamen, tak ti budu taky verit." << endl;
     cout << "Stara vrana: Nevsiml sis? Ze zacatku jsi sel pres lesy a pole, pak uz tam byla jeskyne nebo reka a ted bazina a nebo hrbitov. Cim dal jdes, tim vic je tady temne energie, ktera ovlivnuje prirodu, ale i lidi a zvirata. Davej si pozor, ale uz jsi blizko. Pak ode me pozdravuj korenarku, verim tomu ze ji potkas." << endl;
-    cout << "Stara vrana: Jo a tady mas kouzelny Amulet zivota, pri souboji se budes moci vylecit. Nazdar! (Odlétá pryč)" << endl;
+    cout << "Stara vrana: Jo a tady mas kouzelny Amulet zivota, pri souboji se budes moci vylecit. Nazdar! (Odleta pryc)" << endl;
     maAmuletZivota = true;
     cout << "Hrac: No vsechno jsem asi pochopil az na tu korenarku... tak snad ji potkam a zjistim co je zac." << endl;
 
-   
     cout << "\n1 - Pres Hrbitov\n2 - Pres Bazinu\nTvoje volba: ";
     int volbaBazinaHrbitov; cin >> volbaBazinaHrbitov;
 
@@ -578,7 +590,10 @@ int main() {
             if (hpLehke[cil - 1] <= 0) { stamina = min(maxStamina, stamina + 5); drahokamy += 2; cout << "Nepritel " << cil << " mrtev!" << endl; }
         }
         for (int i = 0; i < 5; i++) {
-            if (hpLehke[i] > 0) { hp -= 1; cout << monstraRozcesti4 << " te sekl za 1 HP!" << endl; }
+            if (hpLehke[i] > 0) {
+                int u = 1 - (obrana / 12); if (u < 0) u = 0; hp -= u;
+                cout << monstraRozcesti4 << " te sekl za " << u << " HP!" << endl;
+            }
         }
     }
     if (hp <= 0) { cout << "\nZemrel jsi v boji! Hra konci." << endl; system("pause"); return 0; }
@@ -586,7 +601,6 @@ int main() {
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi rozcesti! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-  
     cout << "\nPokracujes do dalsi urovne temnoty..." << endl;
     cout << "1 - Prebrodit se pres Reku krve\n2 - Projit Pavoucim lesem\nTvoje volba: ";
     int volbaRekaKrve; cin >> volbaRekaKrve;
@@ -601,11 +615,14 @@ int main() {
                 hpMiniBoss -= dmg;
                 if (hpMiniBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << jmMiniBoss << " mrtva!" << endl; }
             }
-            if (hpMiniBoss > 0) { hp -= dmgMiniBoss; cout << jmMiniBoss << " te kousla za " << dmgMiniBoss << " HP!" << endl; }
+            if (hpMiniBoss > 0) {
+                int u = dmgMiniBoss - (obrana / 12); if (u < 0) u = 0; hp -= u;
+                cout << jmMiniBoss << " te kousla za " << u << " HP!" << endl;
+            }
         }
     }
     else {
-        int hpMiniBoss = 45, dmgMiniBoss = 4; string jmMiniBoss = "[MINI-BOSS] 4-Metrovy Pavouk co zere lidi";
+        int hpMiniBoss = 50, dmgMiniBoss = 4; string jmMiniBoss = "[MINI-BOSS] 4-Metrovy Pavouk co zere lidi";
         cout << "\nV lese te obklicil obrovsky pavouk a slintaji mu tesaky!" << endl;
         while (hp > 0 && hpMiniBoss > 0) {
             cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << "\n[1] HP " << jmMiniBoss << ": " << hpMiniBoss << endl;
@@ -614,7 +631,10 @@ int main() {
                 hpMiniBoss -= dmg;
                 if (hpMiniBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << jmMiniBoss << " mrtev!" << endl; }
             }
-            if (hpMiniBoss > 0) { hp -= dmgMiniBoss; cout << jmMiniBoss << " te sekl nohou za " << dmgMiniBoss << " HP!" << endl; }
+            if (hpMiniBoss > 0) {
+                int u = dmgMiniBoss - (obrana / 12); if (u < 0) u = 0; hp -= u;
+                cout << jmMiniBoss << " te sekl nohou za " << u << " HP!" << endl;
+            }
         }
     }
     if (hp <= 0) { cout << "\nZemrel jsi v boji! Hra konci." << endl; system("pause"); return 0; }
@@ -622,7 +642,6 @@ int main() {
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi rozcesti! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-  
     cout << "\nPosledni kroky pred centrem temnoty:" << endl;
     cout << "1 - Les vrahu a blaznu\n2 - Puste horici pole\nTvoje volba: ";
     int volbaBlazni; cin >> volbaBlazni;
@@ -630,7 +649,7 @@ int main() {
     if (volbaBlazni == 1) {
         int hpLehke1 = 12, hpLehke2 = 12, hpLehke3 = 12; string jmLehke = "[LEHKE] Blazen fetak";
         int hpMid = 25; string jmMid = "[STREDNI] Vrah z vezeni";
-        int hpBoss = 35; string jmBoss = "[MINI-BOSS] Seriovy vrah"; 
+        int hpBoss = 35; string jmBoss = "[MINI-BOSS] Seriovy vrah";
         cout << "\nVkrocil jsi do Lesa vrahu..." << endl;
         while (hp > 0 && (hpLehke1 > 0 || hpLehke2 > 0 || hpLehke3 > 0 || hpMid > 0 || hpBoss > 0)) {
             cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << endl;
@@ -648,8 +667,11 @@ int main() {
                 else if (cil == 4 && hpMid > 0) { hpMid -= dmg; if (hpMid <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << "Mrtvy!\n"; } }
                 else if (cil == 5 && hpBoss > 0) { hpBoss -= dmg; if (hpBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << "Mrtvy!\n"; } }
             }
-            if (hpLehke1 > 0) hp -= 2; if (hpLehke2 > 0) hp -= 2; if (hpLehke3 > 0) hp -= 2;
-            if (hpMid > 0) hp -= 4; if (hpBoss > 0) hp -= 5;
+            if (hpLehke1 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke2 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke3 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpMid > 0) { int u = 4 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpBoss > 0) { int u = 5 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     else {
@@ -673,8 +695,11 @@ int main() {
                 else if (cil == 4 && hpMid > 0) { hpMid -= dmg; if (hpMid <= 0) { stamina = min(maxStamina, stamina + 2); drahokamy += 4; cout << "Mrtvy!\n"; } }
                 else if (cil == 5 && hpBoss > 0) { hpBoss -= dmg; if (hpBoss <= 0) { stamina = min(maxStamina, stamina + 1); drahokamy += 8; cout << "Mrtvy!\n"; } }
             }
-            if (hpLehke1 > 0) hp -= 2; if (hpLehke2 > 0) hp -= 2; if (hpLehke3 > 0) hp -= 2;
-            if (hpMid > 0) hp -= 4; if (hpBoss > 0) hp -= 5;
+            if (hpLehke1 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke2 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpLehke3 > 0) { int u = 2 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpMid > 0) { int u = 4 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpBoss > 0) { int u = 5 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     if (hp <= 0) { cout << "\nZemrel jsi v boji! Hra konci." << endl; system("pause"); return 0; }
@@ -682,7 +707,7 @@ int main() {
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi rozcesti! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-    // --- KORENARKA A TEMNY LES ---
+
     cout << "\nUfff... co to je? Cedule: TEMNY LES. To uz tu jsem. Nekdo stoji pred lesem..." << endl;
     cout << "???: Ahoj mladiku, ja jsem korenarka." << endl;
     cout << "Hrac: Aha, vrana mi rekla ze vas mam pozdravovat." << endl;
@@ -708,7 +733,7 @@ int main() {
         else cout << "Neplatna volba nebo malo penez!\n";
     }
 
-    // --- TEMNY LES (PRED-BOSS) ---
+
     cout << "\nTemny les... Je tu divna energie..." << endl;
     cout << "???: Ale, ale, kdo to prisel. Poslal te muj prohnilej bratr?" << endl;
     cout << "Hrac: Takze je to pravda. Jsi Ramus, bratr krale, ktery se uz davno ztratil na cestach." << endl;
@@ -744,17 +769,15 @@ int main() {
             }
         }
         for (int i = 0; i < 5; i++) {
-            // Mysi utoci jen s 50% sanci (aby davaly min damage)
-            if (hpMysi[i] > 0 && (rand() % 2 == 0)) hp -= 1;
-            // Rytiri utoci za 1 dmg misto puvodnich 2
-            if (hpRytiri[i] > 0) hp -= 1;
+            if (hpMysi[i] > 0 && (rand() % 2 == 0)) { int u = 1 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
+            if (hpRytiri[i] > 0) { int u = 1 - (obrana / 12); if (u < 0) u = 0; hp -= u; }
         }
     }
     if (hp <= 0) { cout << "\nZemrel jsi v boji! Hra konci." << endl; system("pause"); return 0; }
     hp = min(maxHp, hp + 10);
     cout << "*** Vycistil jsi cestu! Odpocinul sis a doplnilo se ti 10 HP. (Aktualni HP: " << hp << "/" << maxHp << ") ***" << endl;
 
-    // --- BOSS FIGHT: GEOMANCER ---
+
     cout << "\nRamus (Temny kral): AAAAAA! Tak ted me uz neporazis!" << endl;
     cout << "Hrac: To se uvidi!" << endl;
     cout << "\n==========================================================" << endl;
@@ -762,7 +785,7 @@ int main() {
     cout << "==========================================================" << endl;
 
     int hpBossFinal = 100;
-    int baseBossDmg = 3;
+    int baseBossDmg = 4;
 
     while (hp > 0 && hpBossFinal > 0) {
         cout << "\nTVOJE HP: " << hp << " | STAMINA: " << stamina << "/" << maxStamina << "\nHP TEMNY KRAL: " << hpBossFinal << endl;
@@ -772,40 +795,54 @@ int main() {
             if (hpBossFinal <= 0) { cout << "\nPORAZIL JSI TEMNEHO KRALE!" << endl; break; }
         }
 
-        cout << "\n[!] Temny kral pouziva magii GEOMANCERA (Lorenc Prokop)!" << endl;
+        cout << "\n[!] Temny kral pouziva magii GEOMANCERA!" << endl;
         cout << "Geomancer te nuti nakreslit tvar na ochranu. Ktery vyberes?\n1. Ctverec\n2. Obdelnik\n3. Kruh\nTvoje volba: ";
         int tvar; cin >> tvar;
         int bossDmg = 0;
 
+        cout << "Standardni utok bosse (zakladni poskozeni) je: " << baseBossDmg << endl;
+
         if (tvar == 1) {
-            cout << "***\n* *\n***\n";
+            cout << "******\n"
+                << "*    *\n"
+                << "*    *\n"
+                << "******\n";
             bossDmg = baseBossDmg * 4;
-            cout << "Vybral jsi Ctverec! Boss nasobi svuj zakladni utok 4x!" << endl;
+            cout << "Ctverec - Geomancer udeli sve zakladni poskozeni, ktere vynasobi 4" << endl;
         }
         else if (tvar == 2) {
-            cout << "****\n* *\n****\n";
+            cout << "**********\n"
+                << "*        *\n"
+                << "*        *\n"
+                << "**********\n";
             bossDmg = baseBossDmg * (2 + (level * 2));
-            cout << "Vybral jsi Obdelnik! Boss nasobi utok vzorcem (2 + (tvuj_level * 2))!" << endl;
+            cout << "Obdelnik - Geomancer udeli sve zakladni poskozeni, ktere vynasobi 2 + (level hrace * 2)" << endl;
         }
         else if (tvar == 3) {
-            cout << " ** \n* *\n ** \n";
+            cout << "   ****   \n"
+                << " *      * \n"
+                << " *      * \n"
+                << "   ****   \n";
             int nahoda = rand() % 3;
             int mult = (nahoda == 0) ? 1 : ((nahoda == 1) ? 3 : 4);
             bossDmg = baseBossDmg * mult * 2;
-            cout << "Vybral jsi Kruh! Boss nasobi utok nahodnou hodnotou (1, 3 nebo 4) * 2!" << endl;
+            cout << "Kruh - Geomancer udeli ((sve zakladni poskozeni * (nahodna hodnota mezi 1-3-4) * 2)" << endl;
         }
         else {
             bossDmg = baseBossDmg * 5;
             cout << "Spatna volba! Boss dostava obrovsky utok!" << endl;
         }
 
-        hp -= bossDmg;
-        cout << "Temny kral ti udelil " << bossDmg << " HP poskozeni magii Geomancera!" << endl;
+        int konecnyBossDmg = bossDmg - (obrana / 12);
+        if (konecnyBossDmg < 1) konecnyBossDmg = 1;
+
+        hp -= konecnyBossDmg;
+        cout << "Temny kral ti udelil " << konecnyBossDmg << " HP poskozeni magii Geomancera!" << endl;
     }
 
     if (hp <= 0) { cout << "\nZemrel jsi v boji s bosssem! Temny kral ovladl svet. Hra konci." << endl; system("pause"); return 0; }
 
-    // --- ZAVERECNY PRIBEH ---
+
     if (maAmuletCistoty) {
         cout << "\nTemna magie z Krale vyprchala dily Amuletu Cistoty!" << endl;
         cout << "Chces si vyslechnout jeho pribeh (1) nebo ho hned odsoudit (2)? ";
@@ -827,7 +864,7 @@ int main() {
         cout << "\nRozhodl ses ho ZAJMOUT. Bude pod hradem zavren na veky veku. Kral mu odpustil a chodi ho tajne navstevovat, ale vi, ze jeho lid bratrovi neodpusti, tak ho uz nesmi z vezeni nikdy pustit." << endl;
     }
 
-    cout << "\nTak ci tak jsi zachranil kralovstvi!" << endl;
+    cout << "\nZachranil jsi kralovstvi!" << endl;
     cout << "Dostal jsi obrovskou odmenu a budes do konce zivota bohaty!" << endl;
     if (maAmuletCistoty) cout << "Kralova ocistena druzina ti bude do konce zivota vdecne sloužit za zachranu zivotu!" << endl;
 
