@@ -50,7 +50,9 @@ int ZvolUtok(int& stamina, int maxStamina, int utok, int* hp, int maxHp) {
     // Hrac vybira akci (1. Rychly utok, 2. Silny utok...)
     // Funkce snizi staminu a vrati vygenerovane 'dmg'
 }
+
 **🌟 Funkce PridejXP**
+
 Stará se o levelování hrdiny na konci každého vítězného boje.
 
 Jak funguje: Přičte získané zkušenosti. Pokud přetečou hranici pro další úroveň, funkce automaticky zvýší level, upraví maximální HP a zvedne základní útok.
