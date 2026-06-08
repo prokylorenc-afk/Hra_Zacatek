@@ -65,6 +65,7 @@ void PridejXP(int ziskaneXP, int& xp, int& level, int& xpDoDalsihoLevelu, int& m
         // Uprava statu pro novy level...
     }
 }
+
 **🎮 Detailní rozbor herních mechanik**
 
 
